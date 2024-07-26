@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: jon
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      DATABASE_URL: mysql://user:password@mysql:3306/jon
+      NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: pk_test_ZmFuY3ktY2F0LTYzLmNsZXJrLmFjY291bnRzLmRldiQ
+      CLERK_SECRET_KEY: sk_test_pV3FkxSLTxAQhbIMq1HHRNuZSX8gFxW19Wmm2MVo58
+      NEXT_PUBLIC_CLERK_SIGN_IN_URL: /sign-in
+      NEXT_PUBLIC_CLERK_SIGN_UP_URL: /sign-up
+      UPLOADTHING_SECRET: sk_live_80699eead5c377c3c1ca3da710bd018af670ab7617913df3b0504ac97ee078fc
+      UPLOADTHING_APP_ID: hs6hgu2en8
+      MUX_TOKEN_ID: 1ca482fd-1bd2-427d-ac77-5ec58a3b9afb
+      MUX_TOKEN_SECRET: FF2wvCHsNndrGFrdKrSDXiJNqGXbWp9MfcrBqXibzLoXzfmG33gCkpDXNMMcQPDBF0hq2/QjZux
+      PAYSTACK_API_KEY: sk_test_6c5f52756bb9d0fbb3080b9164dbcf508af3d224
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mysql
+
+volumes:
+  mysql-data:
