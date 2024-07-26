@@ -10,6 +10,8 @@ generator client {
   binaryTargets = ["native", "debian-openssl-3.0.x"]  // Add this line
 }
 
+
+
 model Course {
   id String @id @default(uuid())
   userId String
