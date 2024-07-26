@@ -1,5 +1,5 @@
 # Use a Node.js 18 base image
-FROM node:18
+FROM node:20
 
 
 # Set the working directory inside the container
@@ -13,6 +13,11 @@ RUN npm install
 
 # Copy the rest of the application code to the container
 COPY . .
+
+RUN npx prisma generate
+
+# Run database migrations
+RUN npx prisma migrate deploy
 
 # Build the Next.js application inside the container
 RUN npm run build
