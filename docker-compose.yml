@@ -4,8 +4,24 @@ services:
   mysql:
     image: mysql:8.0
     ports:
-      - 3307:3306
+      - 3307:3306  # Map container port 3306 to host port 3307
     environment:
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: jon
+      MYSQL_ROOT_PASSWORD: 1101
       MYSQL_ROOT_HOST: '%'
+    networks:
+      - my-network
+  
+  app:
+    image: jon101/myapp:latest
+    depends_on:
+      - mysql
+    environment:
+      DATABASE_URL: mysql://root:1101@mysql:3306/jon
+    ports:
+      - 3000:3000
+    networks:
+      - my-network
+
+networks:
+  my-network:
