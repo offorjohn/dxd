@@ -1,26 +1,24 @@
-# Use the official Node.js image as the base image
-FROM node:14
+# Use a Node.js 18 base image
+FROM node:18
 
-# Set the working directory
+
+# Set the working directory inside the container
 WORKDIR /app
 
-# Copy package.json and package-lock.json
+# Copy the package.json and yarn.lock files to the container
 COPY package*.json ./
 
-# Install dependencies
+# Install dependencies inside the container
 RUN npm install
 
-# Install TypeScript globally
-RUN npm install -g typescript
-
-# Copy the rest of the application code
+# Copy the rest of the application code to the container
 COPY . .
 
-# Compile TypeScript code
-RUN tsc
+# Build the Next.js application inside the container
+RUN npm run build
 
-# Expose the port the app runs on
+# Expose the port on which the application will run
 EXPOSE 3000
 
 # Start the application
-CMD ["node", "dist/index.js"]
+CMD ["npm", "start"]
