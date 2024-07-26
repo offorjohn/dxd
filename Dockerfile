@@ -14,7 +14,16 @@ RUN npm install
 # Copy the rest of the application code to the container
 COPY . .
 
+
+# Set environment variables for Prisma migration
+ENV DATABASE_URL="mysql://root:1101@localhost:3306/jon"
+
+
 RUN npx prisma generate
+
+# Set environment variables for Prisma migration
+ENV DATABASE_URL="mysql://root:1101@localhost:3306/jon"
+
 
 # Run database migrations
 RUN npx prisma migrate deploy
